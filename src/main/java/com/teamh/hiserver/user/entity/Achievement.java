@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-//Medal과 User의 중간테이블
 @Entity
 @NoArgsConstructor
 public class Achievement {
@@ -19,7 +18,6 @@ public class Achievement {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
     @Column
     private LocalDateTime achievementDate;
 

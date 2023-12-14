@@ -8,6 +8,8 @@ public class Medal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long medalId;
     @Column
+    private String medalName;
+    @Column
     private String imageUrl;
 
 }
