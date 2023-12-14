@@ -1,9 +1,12 @@
 package com.teamh.hiserver.Item.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Item {
     @Id
@@ -33,8 +36,10 @@ public class Item {
     private Integer intellect;
     @Column
     private Integer luck;
-
-    public Item(Long itemId, String imageUrl, Long itemType, Integer attack, Integer armor, Integer hp, Integer mp, Long price, Integer level, Integer strength, Integer dex, Integer intellect, Integer luck) {
+    @Column
+    private Integer upgrade;
+    @Builder
+    public Item(Long itemId, String imageUrl, Long itemType, Integer attack, Integer armor, Integer hp, Integer mp, Long price, Integer level, Integer strength, Integer dex, Integer intellect, Integer luck, Integer upgrade) {
         this.itemId = itemId;
         this.imageUrl = imageUrl;
         this.itemType = itemType;
@@ -48,5 +53,6 @@ public class Item {
         this.dex = dex;
         this.intellect = intellect;
         this.luck = luck;
+        this.upgrade = upgrade;
     }
 }
