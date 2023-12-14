@@ -12,6 +12,8 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long inventoryId;
 
+    @Column
+    private Long slotNumber;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -23,8 +25,9 @@ public class Inventory {
     @Column
     private Long count;
 
-    public Inventory(Long inventoryId, User user, Item item, Long count) {
+    public Inventory(Long inventoryId, Long slotNumber, User user, Item item, Long count) {
         this.inventoryId = inventoryId;
+        this.slotNumber = slotNumber;
         this.user = user;
         this.item = item;
         this.count = count;
