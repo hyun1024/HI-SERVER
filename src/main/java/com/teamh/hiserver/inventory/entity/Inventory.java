@@ -1,6 +1,7 @@
-package com.teamh.hiserver.user.entity;
+package com.teamh.hiserver.inventory.entity;
 
 import com.teamh.hiserver.Item.entity.Item;
+import com.teamh.hiserver.user.entity.User;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long inventoryId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -20,12 +21,12 @@ public class Inventory {
     private Item item;
 
     @Column
-    private Integer slot;
+    private Long count;
 
-    public Inventory(Long id, User user, Item item, Integer slot) {
-        this.id = id;
+    public Inventory(Long inventoryId, User user, Item item, Long count) {
+        this.inventoryId = inventoryId;
         this.user = user;
         this.item = item;
-        this.slot = slot;
+        this.count = count;
     }
 }
