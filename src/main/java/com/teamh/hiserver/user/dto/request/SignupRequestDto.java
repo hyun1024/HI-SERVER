@@ -1,4 +1,4 @@
-package com.teamh.hiserver.user.dto;
+package com.teamh.hiserver.user.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,5 +9,5 @@ public class SignupRequestDto {
     private String loginId;
     private String nickname;
     private String password;
-    private Boolean duplication;
+    private Boolean duplicationTest;
 }

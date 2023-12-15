@@ -1,4 +1,4 @@
-package com.teamh.hiserver.user.dto;
+package com.teamh.hiserver.user.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
