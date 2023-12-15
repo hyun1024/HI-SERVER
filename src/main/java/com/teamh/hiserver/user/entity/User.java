@@ -1,10 +1,11 @@
 package com.teamh.hiserver.user.entity;
 
-import com.teamh.hiserver.user.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 @Entity
+@Getter
 @NoArgsConstructor
 public class User {
     @Id
@@ -18,7 +19,7 @@ public class User {
     @Column
     private String password;
     @Column
-    private Integer level;
+    private Long level;
     @Column
     private Long exp;
     @Column
@@ -30,7 +31,7 @@ public class User {
         this.loginId = loginId;
         this.nickname = nickname;
         this.password = password;
-        this.level = 1;
+        this.level = 1L;
         this.exp = 0L;
         this.gold = 0L;
         this.medal = -1L;
