@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 public class LoginRequestDto {
     private String loginId;
     private String password;
-    private Boolean saveId;
+    private Boolean saveCheck;
 
 }

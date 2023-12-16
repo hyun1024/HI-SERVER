@@ -10,4 +10,9 @@ public class ViewController {
     public String RendAuction(){
         return "auction";
     }
+
+    @RequestMapping("/signup")
+    public String RendSignup(){
+        return "signup";
+    }
 }
