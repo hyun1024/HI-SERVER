@@ -1,16 +1,18 @@
 package com.teamh.hiserver.user.controller;
 
 import com.teamh.hiserver.user.dto.request.CheckRequestDto;
-import com.teamh.hiserver.user.dto.response.CheckResponseDto;
 import com.teamh.hiserver.user.dto.request.LoginRequestDto;
 import com.teamh.hiserver.user.dto.request.SignupRequestDto;
-import com.teamh.hiserver.user.dto.response.SignupResponseDto;
+import com.teamh.hiserver.user.dto.response.CheckResponseDto;
 import com.teamh.hiserver.user.dto.response.LoginResponseDto;
+import com.teamh.hiserver.user.dto.response.SignupResponseDto;
 import com.teamh.hiserver.user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,17 +21,17 @@ public class UserController {
 
     private final UserService userService;
     @PostMapping("/signup")
-    public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequestDto, HttpServletRequest request){
-        return ResponseEntity.status(201).body(userService.signup(signupRequestDto, request));
+    public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequestDto){
+        return ResponseEntity.status(201).body(userService.signup(signupRequestDto));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request){
-        return ResponseEntity.status(200).body(userService.login(loginRequestDto, request));
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto){
+        return ResponseEntity.status(200).body(userService.login(loginRequestDto));
     }
 
     @PostMapping("/signup/validation")
-    public ResponseEntity<CheckResponseDto> checkValidity(@RequestBody CheckRequestDto checkRequestDto, HttpServletRequest request){
-        return ResponseEntity.status(200).body(userService.checkValidity(checkRequestDto, request));
+    public ResponseEntity<CheckResponseDto> checkValidity(@RequestBody CheckRequestDto checkRequestDto){
+        return ResponseEntity.status(200).body(userService.checkValidity(checkRequestDto));
     }
 }

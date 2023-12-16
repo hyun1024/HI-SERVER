@@ -20,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SignupResponseDto signup(SignupRequestDto signupRequestDto, HttpServletRequest request) {
+    public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
         validation(signupRequestDto);
         User user = User.builder()
                 .loginId(signupRequestDto.getLoginId())
@@ -37,9 +37,11 @@ public class UserService {
         }
     }
 
-    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletRequest request) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByLoginId(loginRequestDto.getLoginId()).orElseThrow(() -> new NullPointerException("해당 유저 없음"));
-        checkPasswordMatch(loginRequestDto, user);
+        if(!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 틀립니다");
+        };
         return LoginResponseDto.builder()
                 .userId(user.getUserId())
                 .nickname(user.getNickname())
@@ -50,13 +52,7 @@ public class UserService {
                 .build();
     }
 
-    private void checkPasswordMatch(LoginRequestDto loginRequestDto, User user) {
-        if(!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())){
-            throw new IllegalArgumentException("비밀번호가 틀립니다");
-        };
-    }
-
-    public CheckResponseDto checkValidity(CheckRequestDto checkRequestDto, HttpServletRequest request) {
+    public CheckResponseDto checkValidity(CheckRequestDto checkRequestDto) {
         User user = userRepository.findByLoginId(checkRequestDto.getLoginId()).orElse(null);
         return CheckResponseDto.builder()
                 .loginId(checkRequestDto.getLoginId())
