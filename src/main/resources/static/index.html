@@ -67,12 +67,12 @@
                 console.log(data);
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error:', error.message);
             });
     }
 
     function signup() {
-        window.location.href = '/signup';
+        window.location.href = '/view/signup';
     }
 </script>
 
