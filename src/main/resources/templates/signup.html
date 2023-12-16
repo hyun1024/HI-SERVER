@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            text-align: center;
+            max-width: 300px;
+            margin: auto;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[disabled] {
+            background-color: #dddddd;
+            color: #555555;
+            cursor: not-allowed;
+        }
+
+        button:hover:enabled {
+            background-color: #45a049;
+        }
+
+        #checkDuplicate {
+            background-color: #4285f4;
+            color: white;
+            margin-top: 10px;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        #checkDuplicate:hover {
+            background-color: #357ae8;
+        }
+    </style>
+</head>
+<body>
+
+<form id="signupForm">
+    <h2>Signup</h2>
+
+    <label for="loginId">Login ID:</label>
+    <input type="text" id="loginId" name="loginId" oninput="handleInputChange()" required>
+    <button type="button" id="checkIdButton" onclick="checkId()">Check ID</button>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="nickname">Nickname:</label>
+    <input type="text" id="nickname" name="nickname" required>
+
+    <button type="button" id="signupButton" onclick="signup()" disabled>Signup</button>
+</form>
+
+<script>
+    var validTest = false; // 중복 확인 여부 변수
+
+    function handleInputChange(){
+        document.getElementById("signupButton").disabled=true;
+        document.getElementById("checkIdButton").disabled=false;
+    }
+    function checkId() {
+        let loginId = document.getElementById("loginId").value;
+
+        fetch('/api/users/signup/validation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ loginId: loginId })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                validTest = data.isValid; // 중복 확인 결과 업데이트
+
+                document.getElementById("signupButton").disabled=false;
+                document.getElementById("checkIdButton").disabled=true;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function signup() {
+        let loginId = document.getElementById("loginId").value;
+        let password = document.getElementById("password").value;
+        let nickname = document.getElementById("nickname").value;
+        let isValid = document.getElementById("checkIdButton").disabled;
+        let data = {
+            loginId: loginId,
+            password: password,
+            nickname: nickname,
+            isValid: isValid
+        };
+
+        fetch('/api/users/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+
+</body>
+</html>
