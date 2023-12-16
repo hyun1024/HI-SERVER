@@ -1,102 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Page</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        form {
-            text-align: center;
-            max-width: 300px;
-            margin: auto;
-        }
-
-        h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: calc(100% - 20px);
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button[disabled] {
-            background-color: #dddddd;
-            color: #555555;
-            cursor: not-allowed;
-        }
-
-        button:hover:enabled {
-            background-color: #45a049;
-        }
-
-        #checkDuplicate {
-            background-color: #4285f4;
-            color: white;
-            margin-top: 10px;
-            padding: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-        }
-
-        #checkDuplicate:hover {
-            background-color: #357ae8;
-        }
-    </style>
+    <title>회원 가입</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
-<body>
-
-<form id="signupForm">
-    <h2>Signup</h2>
-
-    <label for="loginId">Login ID:</label>
-    <input type="text" id="loginId" name="loginId" oninput="handleInputChange()" required>
-    <button type="button" id="checkIdButton" onclick="checkId()">Check ID</button>
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-
-    <label for="nickname">Nickname:</label>
-    <input type="text" id="nickname" name="nickname" required>
-
-    <button type="button" id="signupButton" onclick="signup()" disabled>Signup</button>
-</form>
-
-<script>
-    var validTest = false; // 중복 확인 여부 변수
-
-    function handleInputChange(){
-        document.getElementById("signupButton").disabled=true;
-        document.getElementById("checkIdButton").disabled=false;
+<style>
+    .basicMargin{
+        margin: 5px 10px 0 0;
     }
+</style>
+<body class="d-flex align-items-center">
+
+<form id="signupForm" class="mx-auto">
+    <h2>Signup</h2>
+    <div class="loginIdBox">
+        <label for="loginId">Login ID</label>
+    </div>
+    <div class="loginIdBox">
+        <input type="text" id="loginId" name="loginId" oninput="handleInputChange()" required>
+        <button type="button" class="btn btn-dark" id="checkIdButton" onclick="checkId()">Check ID</button>
+    </div>
+    <div class="basicMargin>">
+        <label for="password">Password</label>
+    </div>
+    <div>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div class="basicMargin">
+        <label for="nickname">Nickname</label>
+    </div>
+    <div>
+        <input type="text" id="nickname" name="nickname" required>
+    </div>
+    <div style="margin-top: 30px">
+        <button type="button" class="btn btn-primary" id="signupButton" onclick="signup()" disabled>가입하기</button>
+    </div>
+
+</form>
+<script>
+
+    function handleInputChange() {
+        document.getElementById("signupButton").disabled = true;
+        document.getElementById("checkIdButton").disabled = false;
+    }
+
     function checkId() {
         let loginId = document.getElementById("loginId").value;
 
@@ -105,15 +54,20 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ loginId: loginId })
+            body: JSON.stringify({loginId: loginId})
         })
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                validTest = data.isValid; // 중복 확인 결과 업데이트
+                if(data.isUsableId){
+                    alert("사용 가능한 아이디입니다.")
+                    document.getElementById("signupButton").disabled = false;
+                    document.getElementById("checkIdButton").disabled = true;
+                } else{
+                    alert("사용 불가능한 아이디입니다.")
+                    document.getElementById("checkIdButton").disabled = true;
+                }
 
-                document.getElementById("signupButton").disabled=false;
-                document.getElementById("checkIdButton").disabled=true;
             })
             .catch(error => {
                 console.error('Error:', error);
