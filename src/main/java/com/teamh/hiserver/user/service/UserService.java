@@ -1,7 +1,9 @@
 package com.teamh.hiserver.user.service;
 
+import com.teamh.hiserver.user.dto.request.CheckRequestDto;
 import com.teamh.hiserver.user.dto.request.LoginRequestDto;
 import com.teamh.hiserver.user.dto.request.SignupRequestDto;
+import com.teamh.hiserver.user.dto.response.CheckResponseDto;
 import com.teamh.hiserver.user.dto.response.LoginResponseDto;
 import com.teamh.hiserver.user.dto.response.SignupResponseDto;
 import com.teamh.hiserver.user.entity.User;
@@ -30,13 +32,13 @@ public class UserService {
     }
 
     private void validation(SignupRequestDto signupRequestDto) {
-        if(!signupRequestDto.getDuplicationTest()) {
+        if (!signupRequestDto.getIsValid()) {
             throw new RuntimeException("중복 검사 안 됨");
         }
     }
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletRequest request) {
-        User user = userRepository.findByLoginId(loginRequestDto.getLoginId()).orElseThrow(()->new NullPointerException("해당 유저 없음"));
+        User user = userRepository.findByLoginId(loginRequestDto.getLoginId()).orElseThrow(() -> new NullPointerException("해당 유저 없음"));
         return LoginResponseDto.builder()
                 .userId(user.getUserId())
                 .nickname(user.getNickname())
@@ -45,5 +47,12 @@ public class UserService {
                 .medal(user.getMedal())
                 .gold(user.getGold())
                 .build();
+    }
+
+    public CheckResponseDto checkValidity(CheckRequestDto checkRequestDto, HttpServletRequest request) {
+        User user = userRepository.findByLoginId(checkRequestDto.getLoginId()).orElse(null);
+        return CheckResponseDto.builder()
+                .loginId(checkRequestDto.getLoginId())
+                .isUsableId(user == null).build();
     }
 }

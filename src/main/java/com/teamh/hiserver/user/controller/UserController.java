@@ -1,5 +1,7 @@
 package com.teamh.hiserver.user.controller;
 
+import com.teamh.hiserver.user.dto.request.CheckRequestDto;
+import com.teamh.hiserver.user.dto.response.CheckResponseDto;
 import com.teamh.hiserver.user.dto.request.LoginRequestDto;
 import com.teamh.hiserver.user.dto.request.SignupRequestDto;
 import com.teamh.hiserver.user.dto.response.SignupResponseDto;
@@ -18,15 +20,16 @@ public class UserController {
     private final UserService userService;
     @PostMapping("/signup")
     public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequestDto, HttpServletRequest request){
-        SignupResponseDto signupResponseDto = userService.signup(signupRequestDto, request);
-
-        return ResponseEntity.status(201).body(signupResponseDto);
+        return ResponseEntity.status(201).body(userService.signup(signupRequestDto, request));
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request){
-        LoginResponseDto loginResponseDto = userService.login(loginRequestDto, request);
+        return ResponseEntity.status(200).body(userService.login(loginRequestDto, request));
+    }
 
-        return ResponseEntity.status(200).body(loginResponseDto);
+    @PostMapping("/signup/validation")
+    public ResponseEntity<CheckResponseDto> checkValidity(@RequestBody CheckRequestDto checkRequestDto, HttpServletRequest request){
+        return ResponseEntity.status(200).body(userService.checkValidity(checkRequestDto, request));
     }
 }
