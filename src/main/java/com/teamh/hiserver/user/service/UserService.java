@@ -39,6 +39,7 @@ public class UserService {
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletRequest request) {
         User user = userRepository.findByLoginId(loginRequestDto.getLoginId()).orElseThrow(() -> new NullPointerException("해당 유저 없음"));
+        checkPasswordMatch(loginRequestDto, user);
         return LoginResponseDto.builder()
                 .userId(user.getUserId())
                 .nickname(user.getNickname())
@@ -47,6 +48,13 @@ public class UserService {
                 .medal(user.getMedal())
                 .gold(user.getGold())
                 .build();
+    }
+
+    private void checkPasswordMatch(LoginRequestDto loginRequestDto, User user) {
+        String encodedPassword=passwordEncoder.encode(loginRequestDto.getPassword());
+        if(!encodedPassword.equals(user.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 틀립니다");
+        };
     }
 
     public CheckResponseDto checkValidity(CheckRequestDto checkRequestDto, HttpServletRequest request) {
