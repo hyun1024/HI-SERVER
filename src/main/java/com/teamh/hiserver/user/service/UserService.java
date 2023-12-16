@@ -51,8 +51,7 @@ public class UserService {
     }
 
     private void checkPasswordMatch(LoginRequestDto loginRequestDto, User user) {
-        String encodedPassword=passwordEncoder.encode(loginRequestDto.getPassword());
-        if(!encodedPassword.equals(user.getPassword())){
+        if(!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())){
             throw new IllegalArgumentException("비밀번호가 틀립니다");
         };
     }
