@@ -7,6 +7,7 @@ import com.teamh.hiserver.user.dto.response.CheckResponseDto;
 import com.teamh.hiserver.user.dto.response.LoginResponseDto;
 import com.teamh.hiserver.user.dto.response.SignupResponseDto;
 import com.teamh.hiserver.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class UserController {
 
     private final UserService userService;
     @PostMapping("/signup")
-    public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequestDto){
+    public ResponseEntity<SignupResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto){
         return ResponseEntity.status(201).body(userService.signup(signupRequestDto));
     }
 
