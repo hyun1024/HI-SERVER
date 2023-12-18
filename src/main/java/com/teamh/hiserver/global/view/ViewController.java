@@ -16,4 +16,9 @@ public class ViewController {
     public String rendSignup(){
         return "signup";
     }
+
+    @RequestMapping("/home")
+    public String rendHome(){
+        return "home";
+    }
 }
