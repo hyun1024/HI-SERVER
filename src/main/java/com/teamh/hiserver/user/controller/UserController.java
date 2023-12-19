@@ -7,6 +7,7 @@ import com.teamh.hiserver.user.dto.response.CheckResponseDto;
 import com.teamh.hiserver.user.dto.response.LoginResponseDto;
 import com.teamh.hiserver.user.dto.response.SignupResponseDto;
 import com.teamh.hiserver.user.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto){
-        return ResponseEntity.status(200).body(userService.login(loginRequestDto));
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
+        return ResponseEntity.status(200).body(userService.login(loginRequestDto, response));
     }
 
     @PostMapping("/signup/validation")
