@@ -38,12 +38,11 @@ public class UserService {
         }
     }
 
-    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByLoginId(loginRequestDto.getLoginId()).orElseThrow(() -> new NullPointerException("해당 유저 없음"));
         if(!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())){
             throw new IllegalArgumentException("비밀번호가 틀립니다");
         };
-        jwtUtil.addJwtToCookie(user.getLoginId(), response);
         return LoginResponseDto.builder()
                 .userId(user.getUserId())
                 .nickname(user.getNickname())
