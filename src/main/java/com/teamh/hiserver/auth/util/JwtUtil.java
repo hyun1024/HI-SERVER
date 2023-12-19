@@ -10,6 +10,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -47,9 +50,9 @@ public class JwtUtil implements InitializingBean {
                         .signWith(key)
                         .compact();
     }
-    public void addJwtToCookie(String userInfo, HttpServletResponse response) {
+    public void addJwtToCookie(String userInfo, HttpServletResponse response) throws UnsupportedEncodingException {
         String token = createAccessToken(userInfo);
-        System.out.println("token = " + token);
+        token = URLEncoder.encode(token, StandardCharsets.UTF_8);
         Cookie cookie = new Cookie(AUTHORIZATION_HEADER, token);
         cookie.setPath("/");
         response.addCookie(cookie);
