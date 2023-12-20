@@ -52,7 +52,7 @@ public class JwtUtil implements InitializingBean {
     }
     public void addJwtToCookie(String userInfo, HttpServletResponse response) throws UnsupportedEncodingException {
         String token = createAccessToken(userInfo);
-        token = URLEncoder.encode(token, StandardCharsets.UTF_8);
+        token = URLEncoder.encode(token, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
         Cookie cookie = new Cookie(AUTHORIZATION_HEADER, token);
         cookie.setPath("/");
         response.addCookie(cookie);
