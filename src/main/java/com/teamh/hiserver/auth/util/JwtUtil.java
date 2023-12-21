@@ -57,4 +57,8 @@ public class JwtUtil implements InitializingBean {
         cookie.setPath("/");
         response.addCookie(cookie);
     }
+
+    public void validateToken(String token){
+        String subToken= token.substring(8);
+    }
 }
