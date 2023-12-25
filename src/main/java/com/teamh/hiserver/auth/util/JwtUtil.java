@@ -61,6 +61,9 @@ public class JwtUtil implements InitializingBean {
     public void validateToken(String token){
         String subToken= token.substring(8);
         System.out.println("subToken = " + subToken);
+    }
 
+    public String getUser(String token){
+       return token.substring(8);
     }
 }
