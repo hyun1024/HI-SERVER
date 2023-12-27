@@ -33,8 +33,12 @@ public class Inventory {
         this.count = count;
     }
 
-    public void addCount(Long inventoryId, Item item, Long count){
+    public void setCount(Long inventoryId, Item item, Long count){
         this.item = item;
         this.count = count;
+    }
+
+    public void deal(User user){
+        this.user = user;
     }
 }
