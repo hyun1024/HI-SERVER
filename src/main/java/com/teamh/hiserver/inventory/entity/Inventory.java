@@ -41,4 +41,8 @@ public class Inventory {
     public void deal(User user){
         this.user = user;
     }
+
+    public void  moveItem(Item item){
+
+    }
 }
