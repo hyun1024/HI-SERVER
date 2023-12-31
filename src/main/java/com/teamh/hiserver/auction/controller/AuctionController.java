@@ -1,6 +1,7 @@
 package com.teamh.hiserver.auction.controller;
 
 import com.teamh.hiserver.Item.entity.Item;
+import com.teamh.hiserver.auction.dto.AuctionRequestDto;
 import com.teamh.hiserver.auction.service.AuctionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuctionController {
     private final AuctionService auctionService;
 
-    @RequestMapping("/auction/registration")
-    public void itemRegistration(@RequestBody Item item, HttpServletRequest request){
-        auctionService.itemRegistration(item, request);
+    @RequestMapping("/auction/register")
+    public void registerItem(@RequestBody AuctionRequestDto auctionRequestDto, HttpServletRequest request){
+        auctionService.registerItem(auctionRequestDto, request);
     }
 }

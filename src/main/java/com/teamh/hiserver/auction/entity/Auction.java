@@ -16,21 +16,18 @@ public class Auction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long auctionId;
     @ManyToOne
-    @JoinColumn(name = "sell_user_id")
-    private User sellUser;
-
-    @ManyToOne
-    @JoinColumn(name = "buy_user_id")
-    private User buyUser;
-
+    @JoinColumn(name = "user_id")
+    private User userId;
     @ManyToOne
     @JoinColumn(name="item_id")
     private Item item;
-
     @Column
     private Long currentPrice;
     @Column
     private Long quickSellPrice;
     @Column
     private LocalDateTime registrationTime;
+
+    @Column
+    private LocalDateTime dealTime;
 }
