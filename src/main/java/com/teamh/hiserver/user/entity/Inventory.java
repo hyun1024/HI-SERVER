@@ -1,4 +1,4 @@
-package com.teamh.hiserver.inventory.entity;
+package com.teamh.hiserver.user.entity;
 
 import com.teamh.hiserver.Item.entity.Item;
 import com.teamh.hiserver.user.entity.User;
@@ -42,7 +42,9 @@ public class Inventory {
         this.user = user;
     }
 
-    public void  moveItem(Item item){
+    public void moveItem(Item item, Long slotNumber){
+        this.item= item;
+        this.slotNumber = slotNumber;
 
     }
 }

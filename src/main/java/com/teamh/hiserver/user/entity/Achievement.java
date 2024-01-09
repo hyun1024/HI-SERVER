@@ -1,16 +1,18 @@
 package com.teamh.hiserver.user.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 public class Achievement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long achivementId;
+    private Long achievementId;
     @ManyToOne
     @JoinColumn(name = "medal_id")
     private Medal medal;
@@ -21,10 +23,14 @@ public class Achievement {
     @Column
     private LocalDateTime achievementDate;
 
-    public Achievement(Long achivementId, Medal medal, User user, LocalDateTime achievementDate) {
-        this.achivementId = achivementId;
+    @Builder
+    public Achievement(Medal medal, User user) {
         this.medal = medal;
         this.user = user;
-        this.achievementDate = achievementDate;
+        this.achievementDate = LocalDateTime.now();
+    }
+
+    public Long getId() {
+        return this.achievementId;
     }
 }
