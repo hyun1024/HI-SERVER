@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 @Getter
-public class ShopItem {
+public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,12 +19,20 @@ public class ShopItem {
     private Long itemId;
 
     @Column
+    private Long userId;
+
+    @Column
     private Long count;
 
+    @Column
+    private LocalDateTime purchaseTime;
+
     @Builder
-    public ShopItem(Long id, Long itemId, Long count) {
+    public Purchase(Long id, Long itemId, Long userId, Long count) {
         this.id = id;
         this.itemId = itemId;
+        this.userId = userId;
+        this.purchaseTime = LocalDateTime.now();
         this.count = count;
     }
 }

@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -24,17 +22,17 @@ public class Shop {
     private Long userId;
 
     @Column
-    private LocalDateTime boughtTime;
+    private LocalDateTime startTime;
 
     @Column
     private Long count;
 
     @Builder
-    public Shop(Long id, Long itemId, Long userId, LocalDateTime boughtTime, Long count) {
+    public Shop(Long id, Long itemId, Long userId, LocalDateTime startTime, Long count) {
         this.id = id;
         this.itemId = itemId;
         this.userId = userId;
-        this.boughtTime = boughtTime;
+        this.startTime = startTime;
         this.count = count;
     }
 }
