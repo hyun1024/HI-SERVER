@@ -6,6 +6,7 @@ import com.teamh.hiserver.user.dto.request.LoginRequestDto;
 import com.teamh.hiserver.user.dto.request.SignupRequestDto;
 import com.teamh.hiserver.user.dto.response.CheckResponseDto;
 import com.teamh.hiserver.user.dto.response.LoginResponseDto;
+import com.teamh.hiserver.user.dto.response.ProfileResponseDto;
 import com.teamh.hiserver.user.dto.response.SignupResponseDto;
 import com.teamh.hiserver.user.entity.User;
 import com.teamh.hiserver.user.repository.UserRepository;
@@ -58,5 +59,16 @@ public class UserService {
         return CheckResponseDto.builder()
                 .loginId(checkRequestDto.getLoginId())
                 .isUsableId(user == null).build();
+    }
+
+    public ProfileResponseDto getProfile(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
+        return ProfileResponseDto.builder()
+                .exp(user.getExp())
+                .gold(user.getGold())
+                .level(user.getLevel())
+                .medal(user.getMedal())
+                .nickname(user.getNickname())
+                .build();
     }
 }

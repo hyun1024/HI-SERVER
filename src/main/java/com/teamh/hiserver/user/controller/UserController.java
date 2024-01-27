@@ -1,6 +1,7 @@
 package com.teamh.hiserver.user.controller;
 
 import com.teamh.hiserver.auth.util.JwtUtil;
+import com.teamh.hiserver.user.dto.response.ProfileResponseDto;
 import com.teamh.hiserver.user.dto.request.CheckRequestDto;
 import com.teamh.hiserver.user.dto.request.LoginRequestDto;
 import com.teamh.hiserver.user.dto.request.SignupRequestDto;
@@ -12,10 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -41,5 +39,11 @@ public class UserController {
     @PostMapping("/signup/validation")
     public ResponseEntity<CheckResponseDto> checkValidity(@RequestBody CheckRequestDto checkRequestDto){
         return ResponseEntity.status(200).body(userService.checkValidity(checkRequestDto));
+    }
+
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<ProfileResponseDto> getProfile(@PathVariable Long id){
+        return ResponseEntity.ok().body(userService.getProfile(id));
+
     }
 }
