@@ -1,7 +1,6 @@
 package com.teamh.hiserver.user.entity;
 
 import com.teamh.hiserver.Item.entity.Item;
-import com.teamh.hiserver.user.entity.User;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 

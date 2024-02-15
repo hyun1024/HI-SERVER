@@ -29,7 +29,7 @@ public class AchieveService {
         achieveRepository.save(achievement);
         return AchieveResponseDto.builder()
                 .medalId(medal.getMedalId())
-                .medalName(medal.getMedalName())
+                .medalName(medal.getName())
                 .medalUrl(medal.getImageUrl())
                 .build();
     }
