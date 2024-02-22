@@ -6,6 +6,7 @@ import com.teamh.hiserver.user.service.AchieveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +17,10 @@ public class AchieveController {
 
     private final AchieveService achieveService;
 
-    @PostMapping("/first")
-    public ResponseEntity<AchieveResponseDto> getFirstAchieve(AchieveRequestDto achieveRequestDto){
+    @PostMapping("/new")
+    public ResponseEntity<AchieveResponseDto> getNewAchieve(@RequestBody AchieveRequestDto achieveRequestDto){
 
-        return ResponseEntity.ok().body(achieveService.getFirstAchieve(achieveRequestDto));
+        return ResponseEntity.ok().body(achieveService.getNewAchieve(achieveRequestDto));
     }
+
 }

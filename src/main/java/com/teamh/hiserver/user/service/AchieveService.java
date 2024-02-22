@@ -19,7 +19,7 @@ public class AchieveService {
     private final AchieveRepository achieveRepository;
     private final UserRepository userRepository;
 
-    public AchieveResponseDto getFirstAchieve(AchieveRequestDto achieveRequestDto) {
+    public AchieveResponseDto getNewAchieve(AchieveRequestDto achieveRequestDto) {
        User user = userRepository.findByUserId(achieveRequestDto.getUserId()).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
        Medal medal = medalRepository.findByMedalId(achieveRequestDto.getMedalId()).orElseThrow(()->new NullPointerException("유효한 메달이 아닙니다."));
         Achievement achievement = Achievement.builder()
