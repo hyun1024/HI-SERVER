@@ -21,9 +21,7 @@ import java.util.Date;
 @Slf4j(topic = "JwtUtil")
 public class JwtUtil implements InitializingBean {
     public static final String AUTHORIZATION_HEADER = "AccessToken";
-
     public static final String BEARER_PREFIX = "Bearer ";
-
     private static final long ATK_TIME = 1000L * 60 * 60;
 
     @Value("${jwt.secret.key}")
