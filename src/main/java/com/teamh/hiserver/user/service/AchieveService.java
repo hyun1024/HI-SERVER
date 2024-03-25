@@ -39,7 +39,7 @@ public class AchieveService {
     }
 
     public AchieveListResponseDto getAchieveList(Long userId) {
-        List<Achievement> achievementList = achievementRepository.findAllByUserId(userId);
+        List<Achievement> achievementList = achievementRepository.findByUserUserId(userId);
         List<AchievementDto> achievementDtoList = achievementList
                 .stream()
                 .map(x -> AchievementDto
