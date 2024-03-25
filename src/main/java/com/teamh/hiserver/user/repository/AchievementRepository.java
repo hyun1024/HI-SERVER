@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface AchievementRepository extends JpaRepository<Achievement, Long> {
     Optional<Achievement> findByAchievementId(Long userId);
 
-    List<Achievement> findAllByUserId(Long userId);
+    List<Achievement> findByUserUserId(Long userId);
 }
