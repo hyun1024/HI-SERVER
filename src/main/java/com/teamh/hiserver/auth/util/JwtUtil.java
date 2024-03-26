@@ -67,6 +67,8 @@ public class JwtUtil implements InitializingBean {
     }
 
     public String getUser(String token){
+    	token=token.replaceAll("\\+", "%20");
+    	token=token.replaceAll(" ", "%20");
     	Jws<Claims> claimsJws = Jwts.parser().verifyWith(key).build()
     			.parseSignedClaims(token.substring(9));
        return claimsJws.getPayload().getSubject();

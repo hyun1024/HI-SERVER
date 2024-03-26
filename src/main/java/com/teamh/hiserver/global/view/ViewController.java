@@ -21,4 +21,8 @@ public class ViewController {
     public String rendHome(){
         return "home";
     }
+    @RequestMapping("/login")
+    public String rendLogin() {
+    	return "index";
+    }
 }

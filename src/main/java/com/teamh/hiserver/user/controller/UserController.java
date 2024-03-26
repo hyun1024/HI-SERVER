@@ -38,6 +38,11 @@ public class UserController {
         jwtUtil.addJwtToCookie(loginRequestDto.getLoginId(), response);
         return ResponseEntity.status(200).body(loginResponseDto);
     }
+    
+    @PostMapping("/logout")
+    public ResponseEntity<LoginResponseDto> logout(HttpServletResponse response) throws UnsupportedEncodingException {
+        return ResponseEntity.status(200).build();
+    }
 
     @PostMapping("/signup/validation")
     public ResponseEntity<CheckResponseDto> checkIdValidity(@RequestBody CheckRequestDto checkRequestDto){
@@ -47,6 +52,5 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity<ProfileResponseDto> getProfile(HttpServletRequest request){
         return ResponseEntity.ok().body(userService.getProfile(jwtUtil.getUser(request.getHeader("AccessToken"))));
-
     }
 }
