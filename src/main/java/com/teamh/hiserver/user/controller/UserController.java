@@ -9,10 +9,13 @@ import com.teamh.hiserver.user.dto.response.CheckResponseDto;
 import com.teamh.hiserver.user.dto.response.LoginResponseDto;
 import com.teamh.hiserver.user.dto.response.SignupResponseDto;
 import com.teamh.hiserver.user.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -37,13 +40,13 @@ public class UserController {
     }
 
     @PostMapping("/signup/validation")
-    public ResponseEntity<CheckResponseDto> checkValidity(@RequestBody CheckRequestDto checkRequestDto){
-        return ResponseEntity.status(200).body(userService.checkValidity(checkRequestDto));
+    public ResponseEntity<CheckResponseDto> checkIdValidity(@RequestBody CheckRequestDto checkRequestDto){
+        return ResponseEntity.status(200).body(userService.checkIdValidity(checkRequestDto));
     }
 
-    @GetMapping("/profile/{id}")
-    public ResponseEntity<ProfileResponseDto> getProfile(@PathVariable Long id){
-        return ResponseEntity.ok().body(userService.getProfile(id));
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileResponseDto> getProfile(HttpServletRequest request){
+        return ResponseEntity.ok().body(userService.getProfile(jwtUtil.getUser(request.getHeader("AccessToken"))));
 
     }
 }

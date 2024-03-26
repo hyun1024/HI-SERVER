@@ -93,14 +93,20 @@
             },
             body: JSON.stringify(data)
         })
-            .then(response => response.json())
+            .then(response =>{
+                if (!response.ok) {
+                    return response.json().then(errorResponse => {
+                    	alert(errorResponse.message);
+                        throw new Error();
+                    });
+                }
+            })
             .then(data => {
                 console.log(data);
                 alert("회원 가입이 완료되었습니다");
                 window.location.href = '/';
             })
             .catch(error => {
-                console.error('Error:', error);
             });
     }
 </script>

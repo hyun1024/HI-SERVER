@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleAll(Exception e) {
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> handleAll(NullPointerException e) {
         log.info(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).
                 body(e.getMessage());

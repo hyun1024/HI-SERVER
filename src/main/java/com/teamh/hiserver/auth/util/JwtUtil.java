@@ -1,6 +1,10 @@
 package com.teamh.hiserver.auth.util;
 
 import com.teamh.hiserver.user.repository.UserRepository;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
@@ -17,6 +21,9 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
+import javax.crypto.SecretKey;
+
+
 @Component
 @Slf4j(topic = "JwtUtil")
 public class JwtUtil implements InitializingBean {
@@ -27,10 +34,9 @@ public class JwtUtil implements InitializingBean {
     @Value("${jwt.secret.key}")
     private String secretKey;
 
-    private Key key;
+    private SecretKey key;
 
     private final UserRepository userRepository;
-
     public JwtUtil(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -58,10 +64,11 @@ public class JwtUtil implements InitializingBean {
 
     public void validateToken(String token){
         String subToken= token.substring(8);
-        System.out.println("subToken = " + subToken);
     }
 
     public String getUser(String token){
-       return token.substring(8);
+    	Jws<Claims> claimsJws = Jwts.parser().verifyWith(key).build()
+    			.parseSignedClaims(token.substring(9));
+       return claimsJws.getPayload().getSubject();
     }
 }

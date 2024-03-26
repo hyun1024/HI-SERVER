@@ -54,15 +54,15 @@ public class UserService {
                 .build();
     }
 
-    public CheckResponseDto checkValidity(CheckRequestDto checkRequestDto) {
+    public CheckResponseDto checkIdValidity(CheckRequestDto checkRequestDto) {
         User user = userRepository.findByLoginId(checkRequestDto.getLoginId()).orElse(null);
         return CheckResponseDto.builder()
                 .loginId(checkRequestDto.getLoginId())
                 .isUsableId(user == null).build();
     }
 
-    public ProfileResponseDto getProfile(Long id) {
-        User user = userRepository.findById(id).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
+    public ProfileResponseDto getProfile(String loginId) {
+        User user = userRepository.findByLoginId(loginId).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
         return ProfileResponseDto.builder()
                 .exp(user.getExp())
                 .gold(user.getGold())
