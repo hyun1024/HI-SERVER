@@ -1,6 +1,5 @@
 package com.teamh.hiserver.user.dto;
 
-import com.teamh.hiserver.user.entity.Achievement;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

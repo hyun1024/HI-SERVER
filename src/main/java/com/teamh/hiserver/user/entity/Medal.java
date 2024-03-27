@@ -1,6 +1,7 @@
 package com.teamh.hiserver.user.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,5 +18,4 @@ public class Medal {
     private String imageUrl;
     @Column
     private String description;
-
 }

@@ -17,14 +17,14 @@ public class Item {
     @Column(nullable = false)
     private String imageUrl;
     @Column
-    private Long itemType;
+    private String itemType;
     @Column
     private Long price;
     @Column
     private Integer usableLv;
 
     @Builder
-    public Item(Long itemId, String itemName, String imageUrl, Long itemType, Long price, Integer level) {
+    public Item(Long itemId, String itemName, String imageUrl, String itemType, Long price, Integer level) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.imageUrl = imageUrl;

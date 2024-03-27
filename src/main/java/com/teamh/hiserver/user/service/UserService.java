@@ -4,16 +4,27 @@ import com.teamh.hiserver.auth.util.JwtUtil;
 import com.teamh.hiserver.user.dto.request.CheckRequestDto;
 import com.teamh.hiserver.user.dto.request.LoginRequestDto;
 import com.teamh.hiserver.user.dto.request.SignupRequestDto;
+import com.teamh.hiserver.user.dto.request.UpdateUserRequestDto;
+import com.teamh.hiserver.user.dto.request.UpdateAuthRequestDto;
+import com.teamh.hiserver.user.dto.request.UpdatePasswordRequestDto;
 import com.teamh.hiserver.user.dto.response.CheckResponseDto;
 import com.teamh.hiserver.user.dto.response.LoginResponseDto;
+import com.teamh.hiserver.user.dto.response.MedalResponseDto;
 import com.teamh.hiserver.user.dto.response.ProfileResponseDto;
 import com.teamh.hiserver.user.dto.response.SignupResponseDto;
+import com.teamh.hiserver.user.dto.response.UpdateAuthResponseDto;
+import com.teamh.hiserver.user.entity.Medal;
 import com.teamh.hiserver.user.entity.User;
+import com.teamh.hiserver.user.repository.MedalRepository;
 import com.teamh.hiserver.user.repository.UserRepository;
-import jakarta.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,13 +32,16 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MedalRepository medalRepository;
     private final JwtUtil jwtUtil;
     public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
         validation(signupRequestDto);
+        Medal medal = medalRepository.findByMedalId(1L).orElse(null);
         User user = User.builder()
                 .loginId(signupRequestDto.getLoginId())
                 .nickname(signupRequestDto.getNickname())
                 .password(passwordEncoder.encode(signupRequestDto.getPassword()))
+                .medal(medal)
                 .build();
         userRepository.save(user);
         return SignupResponseDto.builder().loginId(signupRequestDto.getLoginId()).build();
@@ -62,13 +76,76 @@ public class UserService {
     }
 
     public ProfileResponseDto getProfile(String loginId) {
-        User user = userRepository.findByLoginId(loginId).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
+    	User user = userRepository.findByLoginId(loginId).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
+        Medal medal = user.getMedal();
+        MedalResponseDto medalDto = MedalResponseDto
+		.builder()
+		.medalId(medal.getMedalId())
+		.imageUrl(medal.getImageUrl())
+		.description(medal.getDescription())
+		.name(medal.getName())
+		.build();
         return ProfileResponseDto.builder()
                 .exp(user.getExp())
                 .gold(user.getGold())
                 .level(user.getLevel())
-                .medal(user.getMedal())
+                .medal(medalDto)
                 .nickname(user.getNickname())
                 .build();
     }
+	public UpdateAuthResponseDto updateProfileAuth(HttpServletRequest request, UpdateAuthRequestDto requestDto) {
+		String loginId = jwtUtil.getUser(request.getHeader("AccessToken"));
+		User user = userRepository.findByLoginId(loginId).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
+		passwordEncoder.matches(user.getPassword(), requestDto.getPassword());
+		return UpdateAuthResponseDto
+				.builder()
+				.isCorrect(passwordEncoder.matches(requestDto.getPassword() ,user.getPassword()))
+				.build();
+	}
+    
+    @Transactional
+	public ProfileResponseDto updateProfile(HttpServletRequest request, UpdateUserRequestDto requestDto) {
+		String loginId = jwtUtil.getUser(request.getHeader("AccessToken"));
+		User user = userRepository.findByLoginId(loginId).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
+		Medal medal = medalRepository.findByMedalId(requestDto.getMedalId()).orElse(null);
+		user.updateProfile(requestDto.getNickname(), medal);
+		Medal updateMedal = user.getMedal();
+		MedalResponseDto medalDto = MedalResponseDto
+				.builder()
+				.medalId(updateMedal.getMedalId())
+				.name(updateMedal.getName())
+				.imageUrl(updateMedal.getImageUrl())
+				.description(updateMedal.getDescription())
+				.build();
+		return ProfileResponseDto.builder()
+                .exp(user.getExp())
+                .gold(user.getGold())
+                .level(user.getLevel())
+                .medal(medalDto)
+                .nickname(user.getNickname())
+                .build();
+
+	}
+    @Transactional
+	public ProfileResponseDto updatePassword(HttpServletRequest request, UpdatePasswordRequestDto requestDto) {
+		String loginId = jwtUtil.getUser(request.getHeader("AccessToken"));
+		User user = userRepository.findByLoginId(loginId).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
+		user.updatePassword(passwordEncoder.encode(requestDto.getPassword()));
+		Medal medal = user.getMedal();
+		MedalResponseDto medalDto = MedalResponseDto
+				.builder()
+				.medalId(medal.getMedalId())
+				.name(medal.getName())
+				.imageUrl(medal.getImageUrl())
+				.description(medal.getDescription())
+				.build();
+		return ProfileResponseDto.builder()
+                .exp(user.getExp())
+                .gold(user.getGold())
+                .level(user.getLevel())
+                .medal(medalDto)
+                .nickname(user.getNickname())
+                .build();
+
+	}
 }

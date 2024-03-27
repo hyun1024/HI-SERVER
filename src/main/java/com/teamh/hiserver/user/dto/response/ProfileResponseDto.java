@@ -1,5 +1,7 @@
 package com.teamh.hiserver.user.dto.response;
 
+import com.teamh.hiserver.user.entity.Medal;
+
 import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,10 +15,10 @@ public class ProfileResponseDto {
     private Long level;
     private Long exp;
     private Long gold;
-    private Long medal;
+    private MedalResponseDto medal;
 
     @Builder
-    public ProfileResponseDto(String nickname, Long level, Long exp, Long gold, Long medal) {
+    public ProfileResponseDto(String nickname, Long level, Long exp, Long gold, MedalResponseDto medal) {
         this.nickname = nickname;
         this.level = level;
         this.exp = exp;

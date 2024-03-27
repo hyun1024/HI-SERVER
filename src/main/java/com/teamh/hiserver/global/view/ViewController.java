@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/view")
 public class ViewController {
 
     @RequestMapping("/auction")
@@ -24,5 +23,25 @@ public class ViewController {
     @RequestMapping("/login")
     public String rendLogin() {
     	return "index";
+    }
+    @RequestMapping("/item")
+    public String rendItem() {
+    	return "item";
+    }
+    @RequestMapping("/shop")
+    public String rendShop() {
+    	return "shop";
+    }
+    @RequestMapping("/mypage")
+    public String rendMypage() {
+    	return "mypage";
+    }
+    @RequestMapping("/ranking")
+    public String rendRanking() {
+    	return "ranking";
+    }
+    @RequestMapping("/notice")
+    public String rendNotice() {
+    	return "notice";
     }
 }
