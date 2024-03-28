@@ -19,7 +19,7 @@ public class Purchase {
     private Long itemId;
 
     @Column
-    private Long userId;
+    private String loginId;
 
     @Column
     private Long count;
@@ -28,10 +28,10 @@ public class Purchase {
     private LocalDateTime purchaseTime;
 
     @Builder
-    public Purchase(Long id, Long itemId, Long userId, Long count) {
+    public Purchase(Long id, Long itemId, String loginId, Long count) {
         this.id = id;
         this.itemId = itemId;
-        this.userId = userId;
+        this.loginId = loginId;
         this.purchaseTime = LocalDateTime.now();
         this.count = count;
     }

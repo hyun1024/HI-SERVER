@@ -24,8 +24,8 @@ public class AchieveService {
     private final UserRepository userRepository;
 
     public AchieveResponseDto setNewAchieve(AchieveRequestDto achieveRequestDto) {
-       User user = userRepository.findByUserId(achieveRequestDto.getUserId()).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
-       Medal medal = medalRepository.findByMedalId(achieveRequestDto.getMedalId()).orElseThrow(()->new NullPointerException("유효한 메달이 아닙니다."));
+       User user = userRepository.findById(achieveRequestDto.getLoginId()).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
+       Medal medal = medalRepository.findById(achieveRequestDto.getMedalId()).orElseThrow(()->new NullPointerException("유효한 메달이 아닙니다."));
         Achievement achievement = Achievement.builder()
                 .user(user)
                 .medal(medal)
@@ -38,8 +38,8 @@ public class AchieveService {
                 .build();
     }
 
-    public AchieveListResponseDto getAchieveList(Long userId) {
-        List<Achievement> achievementList = achievementRepository.findByUserUserId(userId);
+    public AchieveListResponseDto getAchieveList(String loginId) {
+        List<Achievement> achievementList = achievementRepository.findByUserLoginId(loginId);
         List<AchievementDto> achievementDtoList = achievementList
                 .stream()
                 .map(x -> AchievementDto
@@ -49,7 +49,7 @@ public class AchieveService {
                         .name(x.getMedal().getName())
                         .imageUrl(x.getMedal().getImageUrl())
                         .description(x.getMedal().getDescription())
-                        .userId(userId)
+                        .loginId(loginId)
                         .achievementDate(x.getAchievementDate())
                         .build())
                 .toList();

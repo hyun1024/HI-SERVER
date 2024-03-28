@@ -7,7 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AchievementRepository extends JpaRepository<Achievement, Long> {
-    Optional<Achievement> findByAchievementId(Long userId);
-
-    List<Achievement> findByUserUserId(Long userId);
+	List<Achievement> findByUserLoginId(String loginId);
 }

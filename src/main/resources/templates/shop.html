@@ -8,17 +8,32 @@
 <title>HI-SERVER</title>
 </head>
 <style>
+ 	progress {
+    	appearance: none;
+	}
+	progress::-webkit-progress-bar {
+    background:#f0f0f0;
+    border-radius:3px;
+    box-shadow: inset 3px 3px 10px #ccc;
+	}
+	progress::-webkit-progress-value {
+    border-radius:3px;
+    background: #1D976C;
+    background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);
+    background: linear-gradient(to right, #93F9B9, #1D976C);
+	}
   body {
     font-family: Century Gothic, sans-serif;
     margin: 0;
     padding: 0;
   }
   .header{
+  	height: 40px;
     top: 0;
     left: 0;
     width: 100%;
   	position: fixed;
-  	background-color: #333;
+  	background-color: #004433;
     color: #fff;
     padding: 10px;
     display: flex;
@@ -55,6 +70,8 @@
   }
   .user-info-item {
     margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
   }
   .menu-info {
     display: flex;
@@ -62,7 +79,7 @@
     margin-right: 20px;
   }
   .menu-info-item {
-  	font-size: 27px;
+  	font-size: 23px;
   	text-align: center;
     margin-left: 20px;
     margin-right: 20px;
@@ -77,6 +94,7 @@
   }
   .menu-info-item-wrapper:hover{
   	background-color: #666;
+  	
   }
   .logout-button{
   	margin-left: 30px;
@@ -128,17 +146,76 @@
   	left: 10px;
   	top: -12px;
   }
+  .user-info-wrapper{
+    border-left: 1px solid #444;
+    border-right: 1px solid #444;
+    display: flex;
+  }
   .icon{
-  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxiIdJ%2FbtsF5vl6yNx%2FmM7EQTdwsNtv9lcgBVbKr0%2Fimg.png');
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FD4qrq%2FbtsF9KpmZHE%2FcQly9W4XQD0vJeSNVi5Kzk%2Fimg.png');
   width: 55px; /* 이미지 너비에 맞게 설정 */
   height: 40px; /* 이미지 높이에 맞게 설정 */
   background-size: cover; /* 배경 이미지 크기 조절 */
   background-position: center; /* 배경 이미지 위치 조절 */
   cursor: pointer;
   }
-  .image-item img {
-    max-width: 16px;
-    max-height: 16px;
+  .image-item{
+    width: 21px;
+    height: 21px;
+    float:left;
+    padding-right:3px;
+  }
+  .image-item img{
+  	width: 100%;
+  	height: 100%;
+  }
+  .medal{
+  	margin-left:0px;
+  }
+  .name{
+  	font-weight: bold;
+  	cursor: pointer;
+  }
+  .lv{
+  	font-weight: bold;
+  }
+  .gold{
+  	color: #F5DA81;
+  }
+  .exp .exp-span {
+  visibility: hidden;
+  width: 200px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 78%;
+  margin-left: -60px;
+}
+ .exp:hover .exp-span {
+  visibility: visible;
+}
+	.body-wrapper{
+		background-color: #d6c8ba;
+		width: 100%;
+  		min-height: 1400px;
+		align-items: center;
+		margin-top: 60px; /* 헤더의 높이만큼 여백 추가 */
+		justify-content: center; /* 가로 방향으로 가운데 정렬 */
+		display: flex; /* 내부 요소들을 가운데 정렬하기 위해 flex 사용 */
+	}
+  .body-content {
+  	background-color: #f9f9ef;
+	width: 60%;
+	min-height: 1200px;
+    padding: 50px; /* 내부 여백 설정 */
+    border: 1px solid #aaa;
+    border-radius: 50px;
   }
 </style>
 <script>
@@ -172,16 +249,32 @@ function goMypage(){
 function getUserInfo() {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "/api/users/profile", true);
-  xhr.setRequestHeader("AccessToken", getCookie("AccessToken"));
+  xhr.setRequestHeader("AccessToken", getCookie("AccessToken")); 
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
       var userInfo = JSON.parse(xhr.responseText);
       // 사용자 정보를 화면에 출력
       document.getElementById("nickname").innerText = userInfo.nickname;
-      document.getElementById("level").innerText = "Lv " + userInfo.level;
-      document.getElementById("exp").innerText = "exp " + userInfo.exp;
-      document.getElementById("gold").innerText = "gold " + userInfo.gold;
-      addImageToContainer(userInfo.medal.imageUrl);
+      document.getElementById("level").innerText = "Lv " + userInfo.level.level;
+      var progressBar =  document.getElementById("expBar");
+	  var expSpan = document.getElementById("expSpan");
+      // value, min, max 속성을 설정합니다.
+      var value = userInfo.exp; // 원하는 값으로 설정합니다.
+      var min = 0; // 최소값으로 설정합니다.
+      var max = userInfo.levelUpExp; // 최대값으로 설정합니다.
+	  expSpan.innerText = value +" / " + max;
+      // value, min, max 속성을 설정합니다.
+      progressBar.value = value;
+      progressBar.min = min;
+      progressBar.max = max;
+      document.getElementById("gold").innerText = userInfo.gold.toLocaleString();
+      addImageToContainer(userInfo.medal.imageUrl, "medal");
+      var goldimg = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FTQp1D%2FbtsF9GNGr8B%2Fk86ryQFNPSGHgp6bQMXna1%2Fimg.jpg";
+      addImageToContainer(goldimg, "gold")
+    }
+    if(xhr.status === 400){
+    	alert("토큰 만료");
+    	logout();
     }
   };
   xhr.send();
@@ -213,7 +306,7 @@ function logout() {
     xhr.send();
 }
 
-function addImageToContainer(imageUrl) {
+function addImageToContainer(imageUrl, target) {
     // 새로운 이미지 엘리먼트 생성
     var imgElement = document.createElement("img");
     imgElement.src = imageUrl;
@@ -224,9 +317,10 @@ function addImageToContainer(imageUrl) {
     imageDiv.appendChild(imgElement);
 
     // 이미지를 표시할 div에 추가
-    var container = document.getElementById("medal");
+    var container = document.getElementById(target);
     container.appendChild(imageDiv);
 }
+
 </script>
 <body>
 <div class="header">
@@ -273,18 +367,26 @@ function addImageToContainer(imageUrl) {
 	</div>
 	<div class="right">
   		<div class="user-info">
-    		<div class="user-info-item" id="nickname"></div>
-    		<div class="user-info-item" id="medal"></div>
-    		<div class="user-info-item" id="level"></div>
-    		<div class="user-info-item" id="exp"></div>
-    		<div class="user-info-item" id="gold"></div>
+  			<div class="user-info-wrapper">
+    			<div class="user-info-item name" id="nickname" onclick="goMypage()"></div>
+    			<div class="user-info-item medal" id="medal"></div>
+    		</div>
+    		<div class="user-info-wrapper">
+    			<div class="user-info-item lv" id="level"></div>
+    		</div>
+    		<div class="user-info-wrapper">
+    			<div class="user-info-item exp" id="exp">exp <progress id="expBar"></progress><span class="exp-span" id="expSpan">-/-</span></div>
+    		</div>
+    		<div class="user-info-wrapper">
+    			<div class="user-info-item gold" id="gold"></div>
+    		</div>
   		 	<button class="logout-button" onclick="logout()">logout</button>
   		</div>
 	</div>
 
 </div>
-
-
+<div class ="body-wrapper">
+	<div class ="body-content">==================================================================</div>
+</div>
 </body>
-
 </html>

@@ -1,8 +1,5 @@
 package com.teamh.hiserver.user.dto.response;
 
-import com.teamh.hiserver.user.entity.Medal;
-
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,17 +9,20 @@ import lombok.NoArgsConstructor;
 public class ProfileResponseDto {
 
     private String nickname;
-    private Long level;
+    private LevelResponseDto level;
     private Long exp;
     private Long gold;
+    private Long levelUpExp;
     private MedalResponseDto medal;
 
     @Builder
-    public ProfileResponseDto(String nickname, Long level, Long exp, Long gold, MedalResponseDto medal) {
+    public ProfileResponseDto(String nickname, LevelResponseDto level, Long exp, Long gold, Long levelUpExp, MedalResponseDto medal) {
         this.nickname = nickname;
         this.level = level;
         this.exp = exp;
         this.gold = gold;
+        this.levelUpExp = levelUpExp;
         this.medal = medal;
+
     }
 }

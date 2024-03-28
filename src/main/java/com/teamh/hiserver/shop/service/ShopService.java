@@ -22,15 +22,15 @@ public class ShopService {
 
     public PurchaseResponseDto purchase(Long shopId, PurchaseRequestDto purchaseRequestDto) {
         Shop shop = shopRepository.findById(shopId).orElseThrow(()->new NullPointerException("유효한 상점이 아닙니다."));
-        User user = userRepository.findByUserId(purchaseRequestDto.getUserId()).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
+        User user = userRepository.findById(purchaseRequestDto.getLoginId()).orElseThrow(()->new NullPointerException("유효한 유저가 아닙니다."));
         Purchase purchase = Purchase.builder()
                 .count(purchaseRequestDto.getCount())
-                .userId(user.getUserId())
+                .loginId(user.getLoginId())
                 .itemId(purchaseRequestDto.getItemId())
                 .build();
         purchaseRepository.save(purchase);
         return PurchaseResponseDto.builder()
-                .userId(purchase.getUserId())
+                .loginId(purchase.getLoginId())
                 .itemId(purchase.getItemId())
                 .count(purchase.getCount())
                 .build();

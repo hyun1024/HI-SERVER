@@ -22,7 +22,7 @@ public class AchieveController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<AchieveListResponseDto> getAchieveList(@RequestBody Long userId){
-        return ResponseEntity.ok().body(achieveService.getAchieveList(userId));
+    public ResponseEntity<AchieveListResponseDto> getAchieveList(@RequestBody String loginId){
+        return ResponseEntity.ok().body(achieveService.getAchieveList(loginId));
     }
 }

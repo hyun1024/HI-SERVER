@@ -11,16 +11,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
-    @Column
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long userId;
+//    @Column
     private String loginId;
     @Column
     private String nickname;
     @Column
     private String password;
-    @Column
-    private Long level;
+    @ManyToOne(fetch= FetchType.EAGER)
+    @JoinColumn(name = "level")
+    private Level level;
     @Column
     private Long exp;
     @Column
@@ -32,11 +33,11 @@ public class User {
     
     
     @Builder
-    public User(String loginId, String nickname, String password, Medal medal) {
+    public User(String loginId, String nickname, String password, Level level, Medal medal) {
         this.loginId = loginId;
         this.nickname = nickname;
         this.password = password;
-        this.level = 1L;
+        this.level = level;
         this.exp = 0L;
         this.gold = 0L;
         this.medal = medal;

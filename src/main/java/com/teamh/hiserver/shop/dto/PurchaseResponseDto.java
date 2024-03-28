@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PurchaseResponseDto {
     private Long itemId;
-    private Long userId;
+    private String loginId;
     private Long count;
 
     @Builder
-    public PurchaseResponseDto(Long itemId, Long userId, Long count) {
+    public PurchaseResponseDto(Long itemId, String loginId, Long count) {
         this.itemId = itemId;
-        this.userId = userId;
+        this.loginId = loginId;
         this.count = count;
     }
 }

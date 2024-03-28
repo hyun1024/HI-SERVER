@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AchieveRequestDto {
 
-    private Long userId;
+    private String loginId;
     private Long medalId;
 }

@@ -17,7 +17,7 @@ public class AuctionService {
     private final UserRepository userRepository;
 
     public void registerItem(AuctionRequestDto auctionRequestDto, HttpServletRequest request) {
-        User user = userRepository.findByUserId(auctionRequestDto.getUserId()).orElseThrow(()->new NullPointerException("존재하지 않는 유저입니다"));
+        User user = userRepository.findById(auctionRequestDto.getLoginId()).orElseThrow(()->new NullPointerException("존재하지 않는 유저입니다"));
 
     }
 }

@@ -36,7 +36,7 @@ class UserServiceTest {
     void testCheckPasswordMatch() {
         LoginRequestDto loginRequestDto = LoginRequestDto.builder()
                 .password("testPassword").build();
-        given(userRepository.findByLoginId(loginRequestDto.getLoginId())).willReturn(Optional.ofNullable(user));
+        given(userRepository.findById(loginRequestDto.getLoginId())).willReturn(Optional.ofNullable(user));
         given(passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())).willReturn(true);
 
         LoginResponseDto loginResponseDto = userService.login(loginRequestDto);
@@ -47,7 +47,7 @@ class UserServiceTest {
     void testCheckPasswordMismatch() {
         LoginRequestDto loginRequestDto = LoginRequestDto.builder()
                 .password("wrongPassword").build();
-        given(userRepository.findByLoginId(loginRequestDto.getLoginId())).willReturn(Optional.ofNullable(User.builder().password("testPassword").build()));
+        given(userRepository.findById(loginRequestDto.getLoginId())).willReturn(Optional.ofNullable(User.builder().password("testPassword").build()));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> userService.login(loginRequestDto), "비밀번호가 틀립니다");
     }

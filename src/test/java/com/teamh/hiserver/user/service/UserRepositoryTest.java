@@ -14,13 +14,5 @@ public class UserRepositoryTest {
 	
     @Test
     void userRepositoryTest() {
-    	
-    	
-        System.out.println("========case 1=========");
-        User user = userRepository.findByUserId(1L).orElse(null);
-        System.out.println("");
-        System.out.println("========case 2=========");
-        User user2 = userRepository.findById(1L).orElse(null);
-        
     }
 }

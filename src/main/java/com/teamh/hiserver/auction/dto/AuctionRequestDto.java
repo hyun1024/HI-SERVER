@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuctionRequestDto {
 
-    private Long userId;
+    private String loginId;
     private Long itemId;
     private Long currentPrice;
     private Long quickSellPrice;

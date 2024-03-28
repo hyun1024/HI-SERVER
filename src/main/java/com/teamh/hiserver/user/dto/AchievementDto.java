@@ -19,17 +19,17 @@ public class AchievementDto {
     private String name;
     private String imageUrl;
     private String description;
-    private Long userId;
+    private String loginId;
     private LocalDateTime achievementDate;
 
     @Builder
-    public AchievementDto(Long achievementId, Long medalId, String name, String imageUrl, String description, Long userId, LocalDateTime achievementDate) {
+    public AchievementDto(Long achievementId, Long medalId, String name, String imageUrl, String description, String loginId, LocalDateTime achievementDate) {
         this.achievementId = achievementId;
         this.medalId = medalId;
         this.name = name;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.userId = userId;
+        this.loginId = loginId;
         this.achievementDate = achievementDate;
     }
 }

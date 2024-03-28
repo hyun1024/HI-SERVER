@@ -16,6 +16,5 @@ public class ShopController {
     @PostMapping("/purchase/{shopId}")
     public ResponseEntity<PurchaseResponseDto> purchase(@PathVariable Long shopId, @RequestBody PurchaseRequestDto purchaseRequestDto){
         return ResponseEntity.ok().body(shopService.purchase(shopId, purchaseRequestDto));
-
     }
 }

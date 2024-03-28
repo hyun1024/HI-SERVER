@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class PurchaseRequestDto {
 
     private Long itemId;
-    private Long userId;
+    private String loginId;
     private Long count;
 
 }

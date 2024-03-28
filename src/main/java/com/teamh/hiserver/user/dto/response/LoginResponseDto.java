@@ -10,20 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginResponseDto {
 
-    private Long userId;
+    private String loginId;
     private String nickname;
-    private Medal medal;
-    private Long level;
-    private Long exp;
-    private Long gold;
-
     @Builder
-    public LoginResponseDto(Long userId, String nickname, Medal medal, Long level, Long exp, Long gold) {
-        this.userId = userId;
+    public LoginResponseDto(String loginId, String nickname) {
+        this.loginId = loginId;
         this.nickname = nickname;
-        this.medal = medal;
-        this.level = level;
-        this.exp = exp;
-        this.gold = gold;
     }
 }
